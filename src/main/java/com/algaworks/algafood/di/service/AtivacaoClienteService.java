@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.di.modelo.Cliente;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 @Component
 public class AtivacaoClienteService {
 
@@ -20,10 +23,19 @@ public class AtivacaoClienteService {
 //
 //		System.out.println("AtivacaoClienteService: " + notificador);
 //	}
-	
+	@PostConstruct
+	public void init(){
+		System.out.println("INIT " + notificador);
+	}
 	public void ativar(Cliente cliente) {
 		cliente.ativar();
 		notificador.notificar(cliente, "seu cadastro no sistema está ativo!");
 	}
+
+	@PreDestroy
+	public void destroy(){
+		System.out.println("DESTROY");
+	}
+
 	
 }
