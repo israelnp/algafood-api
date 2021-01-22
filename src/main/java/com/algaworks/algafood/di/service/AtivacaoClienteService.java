@@ -14,7 +14,7 @@ import javax.annotation.PreDestroy;
 @Component
 public class AtivacaoClienteService {
 
-	@TipoDoNotificador(NivelDeUrgencia.URGENTE)
+	@TipoDoNotificador(NivelDeUrgencia.SEM_URGENCIA)
 	@Autowired
 	private Notificador notificador;
 
