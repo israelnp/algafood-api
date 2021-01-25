@@ -3,14 +3,13 @@ package com.algaworks.algafood.domain.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tab_cozinhas")
+@Table
 public class Cozinha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nom_cozinha")
     private String nome;
 
     public Long getId() {
