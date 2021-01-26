@@ -9,7 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -54,5 +57,28 @@ public class CozinhaController {
         return ResponseEntity.notFound().build();
 
     }
+
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cozinha adicionar(@RequestBody Cozinha cozinha) {
+        return cozinhaRepository.salvar(cozinha);
+    }
+
+//    @PostMapping
+//    public ResponseEntity<Void> save(@RequestBody Cozinha cozinha){
+//
+//        Cozinha aux =cozinhaRepository.salvar(cozinha);
+//        URI uri = getUri(aux);
+//        return ResponseEntity.created(uri).build();
+//    }
+//
+//    private URI getUri(Cozinha aux) {
+//        return ServletUriComponentsBuilder
+//                    .fromCurrentRequest()
+//                    .path("/{cozinhaId}")
+//                    .buildAndExpand(aux.getId())
+//                    .toUri();
+//    }
 
 }
