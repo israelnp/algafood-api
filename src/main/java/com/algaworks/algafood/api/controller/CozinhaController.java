@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.model.CozinhasXmlWrapper;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,10 @@ public class CozinhaController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public List<Cozinha> listar2()
-    {
-        System.out.println("LISTAR 2");
-        return cozinhaRepository.listar();
+    public CozinhasXmlWrapper listarXml() {
+        return new CozinhasXmlWrapper(cozinhaRepository.listar());
     }
+
     @GetMapping("/{cozinhaId}")
     public Cozinha buscar(@PathVariable Long cozinhaId){
         return cozinhaRepository.buscar(cozinhaId);
