@@ -23,9 +23,6 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     public Cozinha buscar(Long id) {
 
          Cozinha cozinha =manager.find(Cozinha.class, id);
-        if(cozinha==null){
-            throw new IllegalArgumentException("Cozinha não existe!");
-        }
         return cozinha;
     }
     @Transactional
@@ -35,8 +32,8 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     }
     @Transactional
     @Override
-    public void remover(Cozinha cozinha) {
-        Cozinha aux =buscar(cozinha.getId());
+    public void remover(Long cozinhaId) {
+        Cozinha aux =buscar(cozinhaId);
         manager.remove(aux);
     }
 
