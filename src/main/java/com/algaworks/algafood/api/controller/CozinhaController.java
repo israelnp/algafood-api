@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cozinhas")
@@ -33,34 +34,22 @@ public class CozinhaController {
 
     @GetMapping
     public List<Cozinha> listar(){
-        return cozinhaRepository.listar();
+        return cozinhaRepository.findAll();
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public CozinhasXmlWrapper listarXml() {
-        return new CozinhasXmlWrapper(cozinhaRepository.listar());
+        return new CozinhasXmlWrapper(cozinhaRepository.findAll());
     }
 
 
     @GetMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId){
 
-        //HttpHeaders headers = new HttpHeaders();
-        //headers.add(HttpHeaders.LOCATION, "http://localhost:8080/cozinhas");
-        //return ResponseEntity.ok().body(cozinhaRepository.buscar(cozinhaId));
-        //return ResponseEntity.ok(cozinhaRepository.buscar(cozinhaId));
-
-
-//        return ResponseEntity
-//                    .status(HttpStatus.FOUND)
-//                    .headers(headers)
-//                    .build();
-
-        Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
-        if(cozinha!=null){
-            return ResponseEntity.ok(cozinha);
+        Optional<Cozinha> cozinhaOptional = cozinhaRepository.findById(cozinhaId);
+        if(cozinhaOptional.isPresent()){
+            return ResponseEntity.ok(cozinhaOptional.get());
         }
-
 
         return ResponseEntity.notFound().build();
 
@@ -73,35 +62,22 @@ public class CozinhaController {
         return cadastroCozinha.salvar(cozinha);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Void> save(@RequestBody Cozinha cozinha){
-//
-//        Cozinha aux =cozinhaRepository.salvar(cozinha);
-//        URI uri = getUri(aux);
-//        return ResponseEntity.created(uri).build();
-//    }
-//
-//    private URI getUri(Cozinha aux) {
-//        return ServletUriComponentsBuilder
-//                    .fromCurrentRequest()
-//                    .path("/{cozinhaId}")
-//                    .buildAndExpand(aux.getId())
-//                    .toUri();
-//    }
+
     @PutMapping("/{cozinhaId}")
     public ResponseEntity<?> update(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha){
-    try {
-        Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
-        if(cozinhaAtual != null){
-            BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-            cozinhaAtual =  cadastroCozinha.salvar(cozinhaAtual);
-            return ResponseEntity.ok(cozinhaAtual);
+        try {
+            Optional<Cozinha> cozinhaAtualOptional = cozinhaRepository.findById(cozinhaId);
+            if(cozinhaAtualOptional != null){
+                Cozinha cozinhaAtual = cozinhaAtualOptional.get();
+                        BeanUtils.copyProperties(cozinha,cozinhaAtual , "id");
+                        cozinhaAtual =  cadastroCozinha.salvar(cozinhaAtualOptional.get());
+                return ResponseEntity.ok(cozinhaAtual);
+            }
+            return ResponseEntity.notFound().build();
+        } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
         }
-        return ResponseEntity.notFound().build();
-    } catch (EntidadeNaoEncontradaException e) {
-        return ResponseEntity.badRequest()
-                .body(e.getMessage());
-    }
     }
 
     @DeleteMapping("/{cozinhaId}")
