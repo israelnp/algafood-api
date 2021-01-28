@@ -6,19 +6,13 @@ import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
-import com.algaworks.algafood.jpa.CadastroCozinha;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +61,7 @@ public class CozinhaController {
     public ResponseEntity<?> update(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha){
         try {
             Optional<Cozinha> cozinhaAtualOptional = cozinhaRepository.findById(cozinhaId);
-            if(cozinhaAtualOptional != null){
+            if(cozinhaAtualOptional.isPresent()){
                 Cozinha cozinhaAtual = cozinhaAtualOptional.get();
                         BeanUtils.copyProperties(cozinha,cozinhaAtual , "id");
                         cozinhaAtual =  cadastroCozinha.salvar(cozinhaAtualOptional.get());
