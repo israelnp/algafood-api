@@ -13,24 +13,29 @@ import java.util.Optional;
 @Service
 public class CadastroRestauranteService {
 
+    private static final String MSG_RESTAURANTE_NAO_ENCONTRADO
+            = "Não existe um cadastro de restaurante com código %d";
+
     @Autowired
     CozinhaRepository cozinhaRepository;
+
+    @Autowired
+    private CadastroCozinhaService cadastroCozinha;
 
     @Autowired
     private RestauranteRepository restauranteRepository;
 
     public Restaurante salvar(Restaurante restaurante){
         Long cozinhaId = restaurante.getCozinha().getId();
-        Optional<Cozinha> cozinhaOptional = cozinhaRepository.findById(cozinhaId);
-
-        if (!cozinhaOptional.isPresent()) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe cadastro de cozinha com código %d", cozinhaId));
-        }
-
-        restaurante.setCozinha(cozinhaOptional.get());
-
+        Cozinha cozinha  = cadastroCozinha.buscarOuFalhar(cozinhaId);
+        restaurante.setCozinha(cozinha);
         return restauranteRepository.save(restaurante);
+    }
+
+    public Restaurante buscarOuFalhar(Long restauranteId) {
+        return restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId)));
     }
 
 }
