@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -75,6 +76,7 @@ public class CozinhaController {
     }
 
     @DeleteMapping("/{cozinhaId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId){
 
         try {
@@ -82,11 +84,12 @@ public class CozinhaController {
             return ResponseEntity.noContent().build();
 
         } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-
-        } catch (EntidadeEmUsoException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+    		//throw new ServerWebInputException(e.getMessage());
+          }
+//         catch (EntidadeEmUsoException e) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+//        }
 
     }
 
