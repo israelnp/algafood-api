@@ -22,6 +22,7 @@ import java.util.Optional;
 public class CozinhaController {
 
 
+
     @Autowired
     private CozinhaRepository cozinhaRepository;
 
@@ -34,14 +35,8 @@ public class CozinhaController {
     }
 
     @GetMapping("/{cozinhaId}")
-    public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
-        Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
-
-        if (cozinha.isPresent()) {
-            return ResponseEntity.ok(cozinha.get());
-        }
-
-        return ResponseEntity.notFound().build();
+    public Cozinha buscar(@PathVariable Long cozinhaId) {
+        return cadastroCozinha.buscarOuFalhar(cozinhaId);
     }
 
     @PostMapping
@@ -54,24 +49,11 @@ public class CozinhaController {
     public Cozinha atualizar(@PathVariable Long cozinhaId,
                              @RequestBody Cozinha cozinha) {
         Cozinha cozinhaAtual = cadastroCozinha.buscarOuFalhar(cozinhaId);
+
         BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+
         return cadastroCozinha.salvar(cozinhaAtual);
     }
-
-//	@DeleteMapping("/{cozinhaId}")
-//	public ResponseEntity<?> remover(@PathVariable Long cozinhaId) {
-//		try {
-//			cadastroCozinha.excluir(cozinhaId);
-//			return ResponseEntity.noContent().build();
-//
-//		} catch (EntidadeNaoEncontradaException e) {
-//			return ResponseEntity.notFound().build();
-//
-//		} catch (EntidadeEmUsoException e) {
-//			return ResponseEntity.status(HttpStatus.CONFLICT)
-//					.body(e.getMessage());
-//		}
-//	}
 
     @DeleteMapping("/{cozinhaId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
