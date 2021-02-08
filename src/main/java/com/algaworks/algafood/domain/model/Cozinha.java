@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class Cozinha {
     private Long id;
 
     //@JsonIgnore
+    @NotBlank
     @JsonProperty("titulo")
     @Column(nullable = false)
     private String nome;
