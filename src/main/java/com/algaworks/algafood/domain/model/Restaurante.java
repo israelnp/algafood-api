@@ -1,8 +1,8 @@
 package com.algaworks.algafood.domain.model;
 
-import com.algaworks.algafood.Groups;
+import com.algaworks.algafood.core.Groups;
+import com.algaworks.algafood.core.TaxaFrete;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -35,7 +35,8 @@ public class Restaurante {
 
     //@DecimalMin("0")
     @NotNull
-    @PositiveOrZero(message = "{TaxaFrete.invalida}")
+    @TaxaFrete
+   // @PositiveOrZero(message = "{TaxaFrete.invalida}")
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
