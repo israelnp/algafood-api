@@ -31,7 +31,7 @@ public class CadastroCozinhaService {
             cozinhaRepository.deleteById(cozinhaId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
+            throw new CozinhaNaoEncontradaException(
                     String.format(MSG_COZINHA_NAO_ENCONTRADA, cozinhaId));
 
         } catch (DataIntegrityViolationException e) {

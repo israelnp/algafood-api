@@ -2,6 +2,8 @@ package com.algaworks.algafood;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 import org.junit.Test;
@@ -17,14 +19,14 @@ import javax.validation.ConstraintViolationException;
 public class CadastroCozinhaIntegrationTests {
 
     @Autowired
-    private CadastroCozinhaService cadastroCozinhaService;
+    private CadastroCozinhaService cadastroCozinha;
 
     @Test
     public void deveAtribuirId_QuandoCadastrarCozinhaComDadosCorretos() {
         Cozinha novaCosinha = new Cozinha();
         novaCosinha.setNome("Chinesa");
 
-        novaCosinha = cadastroCozinhaService.salvar(novaCosinha);
+        novaCosinha = cadastroCozinha.salvar(novaCosinha);
 
         assertThat(novaCosinha).isNotNull();
         assertThat(novaCosinha.getId()).isNotNull();
@@ -35,7 +37,17 @@ public class CadastroCozinhaIntegrationTests {
         Cozinha novaCosinha = new Cozinha();
         novaCosinha.setNome(null);
 
-        novaCosinha = cadastroCozinhaService.salvar(novaCosinha);
+        novaCosinha = cadastroCozinha.salvar(novaCosinha);
+    }
+
+    @Test(expected = EntidadeEmUsoException.class)
+    public void deveFalhar_QuandoExcluirCozinhaEmUso() {
+        cadastroCozinha.excluir(1L);
+    }
+
+    @Test(expected = CozinhaNaoEncontradaException.class)
+    public void deveFalhar_QuandoExcluirCozinhaInexistente() {
+        cadastroCozinha.excluir(100L);
     }
 
 }
