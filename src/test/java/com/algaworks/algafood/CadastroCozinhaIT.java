@@ -1,17 +1,9 @@
 package com.algaworks.algafood;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
-import com.algaworks.algafood.util.ResourceUtils;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,12 +14,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.util.DatabaseCleaner;
+import com.algaworks.algafood.util.ResourceUtils;
+
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
-public class CadastroCozinhaIT  {
+public class CadastroCozinhaIT {
 
     private static final int COZINHA_ID_INEXISTENTE = 100;
 
@@ -57,7 +55,6 @@ public class CadastroCozinhaIT  {
         prepararDados();
     }
 
-
     @Test
     public void deveRetornarStatus200_QuandoConsultarCozinhas() {
         given()
@@ -69,7 +66,7 @@ public class CadastroCozinhaIT  {
     }
 
     @Test
-    public void deveConter4Cozinhas_QuandoConsultarCozinhas() {
+    public void deveRetornarQuantidadeCorretaDeCozinhas_QuandoConsultarCozinhas() {
         given()
                 .accept(ContentType.JSON)
                 .when()
@@ -79,7 +76,7 @@ public class CadastroCozinhaIT  {
     }
 
     @Test
-    public void testRetornarStatus201_QuandoCadastrarCozinha() {
+    public void deveRetornarStatus201_QuandoCadastrarCozinha() {
         given()
                 .body(jsonCorretoCozinhaChinesa)
                 .contentType(ContentType.JSON)
@@ -90,7 +87,6 @@ public class CadastroCozinhaIT  {
                 .statusCode(HttpStatus.CREATED.value());
     }
 
-
     @Test
     public void deveRetornarRespostaEStatusCorretos_QuandoConsultarCozinhaExistente() {
         given()
@@ -100,7 +96,7 @@ public class CadastroCozinhaIT  {
                 .get("/{cozinhaId}")
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("nome", equalTo("Americana"));
+                .body("nome", equalTo(cozinhaAmericana.getNome()));
     }
 
     @Test
