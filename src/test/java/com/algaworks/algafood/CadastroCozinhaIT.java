@@ -13,6 +13,7 @@ import static org.hamcrest.Matchers.hasSize;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,11 +32,15 @@ public class CadastroCozinhaIT  {
     @LocalServerPort
     private int port;
 
+    @Autowired
+    private Flyway flyway;
+
     @Before
     public void setUp() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         RestAssured.port = port;
         RestAssured.basePath = "/cozinhas";
+        flyway.migrate();
     }
 
 
