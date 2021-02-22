@@ -17,6 +17,7 @@ public class RestauranteModel {
 	private String nome;
 	@JsonView(RestauranteView.Resumo.class)
 	private BigDecimal taxaFrete;
+	@JsonView(RestauranteView.Resumo.class)
 	private CozinhaModel cozinha;
 	private Boolean ativo;
 	private Boolean aberto;
