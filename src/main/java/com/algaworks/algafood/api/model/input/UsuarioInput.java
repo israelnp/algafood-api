@@ -10,11 +10,11 @@ import lombok.Setter;
 @Getter
 public class UsuarioInput {
 
-    @NotBlank
-    private String nome;
-
-    @NotBlank
-    @Email
-    private String email;
-
+	@NotBlank
+	private String nome;
+	
+	@NotBlank
+	@Email
+	private String email;
+	
 }

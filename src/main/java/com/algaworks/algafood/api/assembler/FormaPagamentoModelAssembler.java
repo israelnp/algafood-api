@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,17 +14,17 @@ import com.algaworks.algafood.domain.model.FormaPagamento;
 @Component
 public class FormaPagamentoModelAssembler {
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    public FormaPagamentoModel toModel(FormaPagamento formaPagamento) {
-        return modelMapper.map(formaPagamento, FormaPagamentoModel.class);
-    }
-
-    public List<FormaPagamentoModel> toCollectionModel(List<FormaPagamento> formasPagamentos) {
-        return formasPagamentos.stream()
-                .map(formaPagamento -> toModel(formaPagamento))
-                .collect(Collectors.toList());
-    }
-
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	public FormaPagamentoModel toModel(FormaPagamento formaPagamento) {
+		return modelMapper.map(formaPagamento, FormaPagamentoModel.class);
+	}
+	
+	public List<FormaPagamentoModel> toCollectionModel(Collection<FormaPagamento> formasPagamentos) {
+		return formasPagamentos.stream()
+				.map(formaPagamento -> toModel(formaPagamento))
+				.collect(Collectors.toList());
+	}
+	
 }

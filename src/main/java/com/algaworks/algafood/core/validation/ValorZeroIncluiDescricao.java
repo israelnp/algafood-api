@@ -1,4 +1,5 @@
 package com.algaworks.algafood.core.validation;
+
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.ElementType;
@@ -13,16 +14,16 @@ import javax.validation.Payload;
 @Constraint(validatedBy = { ValorZeroIncluiDescricaoValidator.class })
 public @interface ValorZeroIncluiDescricao {
 
-    String message() default "descrição obrigatória inválida";
+	String message() default "descrição obrigatória inválida";
 
-    Class<?>[] groups() default { };
+	Class<?>[] groups() default { };
 
-    Class<? extends Payload>[] payload() default { };
-
-    String valorField();
-
-    String descricaoField();
-
-    String descricaoObrigatoria();
-
+	Class<? extends Payload>[] payload() default { };
+	
+	String valorField();
+	
+	String descricaoField();
+	
+	String descricaoObrigatoria();
+	
 }

@@ -13,17 +13,17 @@ import lombok.Setter;
 @Getter
 public class ProdutoInput {
 
-    @NotBlank
-    private String nome;
-
-    @NotBlank
-    private String descricao;
-
-    @NotNull
-    @PositiveOrZero
-    private BigDecimal preco;
-
-    @NotNull
-    private Boolean ativo;
-
+	@NotBlank
+	private String nome;
+	
+	@NotBlank
+	private String descricao;
+	
+	@NotNull
+	@PositiveOrZero
+	private BigDecimal preco;
+	
+	@NotNull
+	private Boolean ativo;
+	
 }

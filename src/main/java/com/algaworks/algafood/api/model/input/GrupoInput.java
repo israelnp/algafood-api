@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 public class GrupoInput {
 
-    @NotBlank
-    private String nome;
-
+	@NotBlank
+	private String nome;
+	
 }

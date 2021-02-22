@@ -9,25 +9,25 @@ import com.algaworks.algafood.domain.model.Pedido;
 @Service
 public class FluxoPedidoService {
 
-    @Autowired
-    private EmissaoPedidoService emissaoPedido;
-
-    @Transactional
-    public void confirmar(Long pedidoId) {
-        Pedido pedido = emissaoPedido.buscarOuFalhar(pedidoId);
-        pedido.confirmar();
-    }
-
-    @Transactional
-    public void cancelar(Long pedidoId) {
-        Pedido pedido = emissaoPedido.buscarOuFalhar(pedidoId);
-        pedido.cancelar();
-    }
-
-    @Transactional
-    public void entregar(Long pedidoId) {
-        Pedido pedido = emissaoPedido.buscarOuFalhar(pedidoId);
-        pedido.entregar();
-    }
-
+	@Autowired
+	private EmissaoPedidoService emissaoPedido;
+	
+	@Transactional
+	public void confirmar(String codigoPedido) {
+		Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
+		pedido.confirmar();
+	}
+	
+	@Transactional
+	public void cancelar(String codigoPedido) {
+		Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
+		pedido.cancelar();
+	}
+	
+	@Transactional
+	public void entregar(String codigoPedido) {
+		Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
+		pedido.entregar();
+	}
+	
 }

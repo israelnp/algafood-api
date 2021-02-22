@@ -13,17 +13,17 @@ import com.algaworks.algafood.domain.model.Produto;
 @Component
 public class ProdutoModelAssembler {
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    public ProdutoModel toModel(Produto produto) {
-        return modelMapper.map(produto, ProdutoModel.class);
-    }
-
-    public List<ProdutoModel> toCollectionModel(List<Produto> produtos) {
-        return produtos.stream()
-                .map(produto -> toModel(produto))
-                .collect(Collectors.toList());
-    }
-
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	public ProdutoModel toModel(Produto produto) {
+		return modelMapper.map(produto, ProdutoModel.class);
+	}
+	
+	public List<ProdutoModel> toCollectionModel(List<Produto> produtos) {
+		return produtos.stream()
+				.map(produto -> toModel(produto))
+				.collect(Collectors.toList());
+	}
+	
 }
