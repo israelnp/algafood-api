@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.algaworks.algafood.core.PageableTranslator;
 import com.algaworks.algafood.domain.repository.filter.PedidoFilter;
 import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpecs;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -73,6 +75,7 @@ public class PedidoController {
 	@GetMapping
 	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro,
 											 @PageableDefault(size = 10) Pageable pageable) {
+		pageable = traduzirPageable(pageable);
 		Page<Pedido> pedidosPage = pedidoRepository.findAll(
 				PedidoSpecs.usandoFiltro(filtro), pageable);
 
@@ -109,6 +112,17 @@ public class PedidoController {
 		Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
 		
 		return pedidoModelAssembler.toModel(pedido);
+	}
+
+	private Pageable traduzirPageable(Pageable apiPageable) {
+		var mapeamento = ImmutableMap.of(
+				"codigo", "codigo",
+				"restaurante.nome", "restaurante.nome",
+				"nomeCliente", "cliente.nome",
+				"valorTotal", "valorTotal"
+		);
+
+		return PageableTranslator.translate(apiPageable, mapeamento);
 	}
 	
 }
