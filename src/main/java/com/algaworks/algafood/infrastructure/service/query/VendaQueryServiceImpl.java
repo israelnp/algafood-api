@@ -61,7 +61,6 @@ public class VendaQueryServiceImpl implements VendaQueryService {
         query.select(selection);
         query.where(predicates.toArray(new Predicate[0]));
         query.groupBy(functionDateDataCriacao);
-
         return manager.createQuery(query).getResultList();
     }
 
