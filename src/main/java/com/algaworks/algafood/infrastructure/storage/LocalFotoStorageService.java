@@ -50,6 +50,8 @@ public class LocalFotoStorageService implements FotoStorageService {
         }
     }
 
+
+
     private Path getArquivoPath(String nomeArquivo) {
         return diretorioFotos.resolve(Path.of(nomeArquivo));
     }
