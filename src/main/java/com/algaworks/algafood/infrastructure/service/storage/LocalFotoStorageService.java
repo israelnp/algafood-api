@@ -1,4 +1,4 @@
-package com.algaworks.algafood.infrastructure.storage;
+package com.algaworks.algafood.infrastructure.service.storage;
 
 import java.io.InputStream;
 import java.nio.file.Files;
