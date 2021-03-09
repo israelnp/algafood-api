@@ -12,7 +12,6 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import com.algaworks.algafood.core.email.EmailProperties;
 import com.algaworks.algafood.domain.service.EnvioEmailService;
 
-@Service
 public class SmtpEnvioEmailService implements EnvioEmailService {
 
     @Autowired
@@ -43,7 +42,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
         }
     }
 
-    private String processarTemplate(Mensagem mensagem) {
+    protected String processarTemplate(Mensagem mensagem) {
         try {
             Template template = freemarkerConfig.getTemplate(mensagem.getCorpo());
 
