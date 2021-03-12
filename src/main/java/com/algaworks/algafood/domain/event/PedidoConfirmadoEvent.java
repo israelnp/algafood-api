@@ -9,6 +9,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PedidoConfirmadoEvent {
 
-    private Pedido pedido;
-
+	private Pedido pedido;
+	
 }

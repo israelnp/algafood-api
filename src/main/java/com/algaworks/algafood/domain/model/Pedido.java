@@ -20,15 +20,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
+
 import com.algaworks.algafood.domain.event.PedidoCanceladoEvent;
 import com.algaworks.algafood.domain.event.PedidoConfirmadoEvent;
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.algaworks.algafood.domain.exception.NegocioException;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
@@ -87,6 +87,7 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
 	public void confirmar() {
 		setStatus(StatusPedido.CONFIRMADO);
 		setDataConfirmacao(OffsetDateTime.now());
+		
 		registerEvent(new PedidoConfirmadoEvent(this));
 	}
 	
@@ -98,6 +99,7 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
 	public void cancelar() {
 		setStatus(StatusPedido.CANCELADO);
 		setDataCancelamento(OffsetDateTime.now());
+		
 		registerEvent(new PedidoCanceladoEvent(this));
 	}
 	

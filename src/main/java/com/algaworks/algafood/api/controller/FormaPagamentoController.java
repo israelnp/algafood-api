@@ -45,63 +45,63 @@ public class FormaPagamentoController {
 	
 	@Autowired
 	private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
-
+	
 	@GetMapping
 	public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request) {
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
-
+		
 		String eTag = "0";
-
+		
 		OffsetDateTime dataUltimaAtualizacao = formaPagamentoRepository.getDataUltimaAtualizacao();
-
+		
 		if (dataUltimaAtualizacao != null) {
 			eTag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
 		}
-
+		
 		if (request.checkNotModified(eTag)) {
 			return null;
 		}
-
+		
 		List<FormaPagamento> todasFormasPagamentos = formaPagamentoRepository.findAll();
-
+		
 		List<FormaPagamentoModel> formasPagamentosModel = formaPagamentoModelAssembler
 				.toCollectionModel(todasFormasPagamentos);
-
+		
 		return ResponseEntity.ok()
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
 				.eTag(eTag)
 				.body(formasPagamentosModel);
 	}
-
+	
 	@GetMapping("/{formaPagamentoId}")
 	public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId,
-													  ServletWebRequest request) {
-
+			ServletWebRequest request) {
+		
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
-
+		
 		String eTag = "0";
-
+		
 		OffsetDateTime dataAtualizacao = formaPagamentoRepository
 				.getDataAtualizacaoById(formaPagamentoId);
-
+		
 		if (dataAtualizacao != null) {
 			eTag = String.valueOf(dataAtualizacao.toEpochSecond());
 		}
-
+		
 		if (request.checkNotModified(eTag)) {
 			return null;
 		}
-
+		
 		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
-
+		
 		FormaPagamentoModel formaPagamentoModel = formaPagamentoModelAssembler.toModel(formaPagamento);
-
+		
 		return ResponseEntity.ok()
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
 				.eTag(eTag)
 				.body(formaPagamentoModel);
 	}
-
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public FormaPagamentoModel adicionar(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
