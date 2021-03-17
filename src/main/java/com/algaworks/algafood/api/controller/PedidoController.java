@@ -58,10 +58,6 @@ public class PedidoController  implements PedidoControllerOpenApi {
 	@Autowired
 	private PedidoInputDisassembler pedidoInputDisassembler;
 
-	@ApiImplicitParams({
-			@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
-					name = "campos", paramType = "query", type = "string")
-	})
 	@GetMapping
 	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
 			@PageableDefault(size = 10) Pageable pageable) {
@@ -97,10 +93,6 @@ public class PedidoController  implements PedidoControllerOpenApi {
 		}
 	}
 
-	@ApiImplicitParams({
-			@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
-					name = "campos", paramType = "query", type = "string")
-	})
 	@GetMapping("/{codigoPedido}")
 	public PedidoModel buscar(@PathVariable String codigoPedido) {
 		Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
