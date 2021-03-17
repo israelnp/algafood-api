@@ -5,9 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.algaworks.algafood.api.controller.openapi.controller.PedidoControllerOpenApi;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
+import com.algaworks.algafood.api.openapi.controller.PedidoControllerOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

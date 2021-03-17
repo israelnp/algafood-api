@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
-import com.algaworks.algafood.api.controller.openapi.controller.FormaPagamentoControllerOpenApi;
+import com.algaworks.algafood.api.openapi.controller.FormaPagamentoControllerOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;

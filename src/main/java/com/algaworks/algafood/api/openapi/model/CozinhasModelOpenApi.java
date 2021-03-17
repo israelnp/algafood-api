@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.controller.openapi.model;
+package com.algaworks.algafood.api.openapi.model;
 
 import com.algaworks.algafood.api.model.CozinhaModel;
 

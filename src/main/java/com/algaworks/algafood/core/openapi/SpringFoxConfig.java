@@ -1,10 +1,10 @@
 package com.algaworks.algafood.core.openapi;
 
-import com.algaworks.algafood.api.controller.openapi.model.CozinhasModelOpenApi;
-import com.algaworks.algafood.api.controller.openapi.model.PedidosResumoModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.CozinhasModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.PedidosResumoModelOpenApi;
 import com.algaworks.algafood.api.exceptionhandler.Problem;
 import com.algaworks.algafood.api.model.CozinhaModel;
-import com.algaworks.algafood.api.controller.openapi.model.PageableModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.PageableModelOpenApi;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
@@ -72,7 +72,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						new Tag("Grupos", "Gerencia os grupos de usuários"),
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
                         new Tag("Formas de pagamento", "Gerencia as formas de pagamento"),
-						new Tag("Pedidos", "Gerencia os pedidos"));
+						new Tag("Pedidos", "Gerencia os pedidos"),
+						new Tag("Restaurantes", "Gerencia os restaurantes"));
 	}
 
 	private List<ResponseMessage> globalGetResponseMessages() {

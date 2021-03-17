@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.algaworks.algafood.api.controller.openapi.controller.CozinhaControllerOpenApi;
+import com.algaworks.algafood.api.openapi.controller.CozinhaControllerOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
