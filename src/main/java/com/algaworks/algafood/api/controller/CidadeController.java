@@ -3,6 +3,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.algaworks.algafood.api.ResourceUriHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -57,6 +58,7 @@ public class CidadeController implements CidadeControllerOpenApi {
         return cidadeModelAssembler.toModel(cidade);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidadeInput) {
@@ -65,7 +67,11 @@ public class CidadeController implements CidadeControllerOpenApi {
 
             cidade = cadastroCidade.salvar(cidade);
 
-            return cidadeModelAssembler.toModel(cidade);
+            CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+
+            ResourceUriHelper.addUriInResponseHeader(cidadeModel.getId());
+
+            return cidadeModel;
         } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
