@@ -11,20 +11,22 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Cidades")
 public interface CidadeControllerOpenApi {
 
     @ApiOperation("Lista as cidades")
-    public List<CidadeModel> listar();
+    CollectionModel<CidadeModel> listar();
 
     @ApiOperation("Busca uma cidade por ID")
     @ApiResponses({
             @ApiResponse(code = 400, message = "ID da cidade inválido", response = Problem.class),
             @ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class)
     })
-    public CidadeModel buscar(
-            @ApiParam(value = "ID de uma cidade", example = "1")
+
+    CidadeModel buscar(
+            @ApiParam(value = "ID de uma cidade", example = "1", required = true)
                     Long cidadeId);
 
     @ApiOperation("Cadastra uma cidade")
