@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.algaworks.algafood.core.data.PageWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,10 +64,12 @@ public class PedidoController implements PedidoControllerOpenApi {
 	@GetMapping
 	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro,
 												   @PageableDefault(size = 10) Pageable pageable) {
-		pageable = traduzirPageable(pageable);
+		Pageable pageableTraduzido = traduzirPageable(pageable);
 
 		Page<Pedido> pedidosPage = pedidoRepository.findAll(
-				PedidoSpecs.usandoFiltro(filtro), pageable);
+				PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
+
+		pedidosPage = new PageWrapper<>(pedidosPage, pageable);
 
 		return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
 	}
