@@ -1,6 +1,5 @@
 package com.algaworks.algafood.api.assembler;
 
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.algaworks.algafood.api.AlgaLinks;
 import com.algaworks.algafood.api.controller.CidadeController;
 import com.algaworks.algafood.api.controller.FormaPagamentoController;
 import com.algaworks.algafood.api.controller.PedidoController;
@@ -25,6 +25,9 @@ public class PedidoModelAssembler
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private AlgaLinks algaLinks;
+
 	public PedidoModelAssembler() {
 		super(PedidoController.class, PedidoModel.class);
 	}
@@ -34,7 +37,7 @@ public class PedidoModelAssembler
 		PedidoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
 		modelMapper.map(pedido, pedidoModel);
 
-		pedidoModel.add(linkTo(PedidoController.class).withRel("pedidos"));
+		pedidoModel.add(algaLinks.linkToPedidos());
 
 		pedidoModel.getRestaurante().add(linkTo(methodOn(RestauranteController.class)
 				.buscar(pedido.getRestaurante().getId())).withSelfRel());
@@ -42,8 +45,6 @@ public class PedidoModelAssembler
 		pedidoModel.getCliente().add(linkTo(methodOn(UsuarioController.class)
 				.buscar(pedido.getCliente().getId())).withSelfRel());
 
-		// Passamos null no segundo argumento, porque é indiferente para a
-		// construção da URL do recurso de forma de pagamento
 		pedidoModel.getFormaPagamento().add(linkTo(methodOn(FormaPagamentoController.class)
 				.buscar(pedido.getFormaPagamento().getId(), null)).withSelfRel());
 
