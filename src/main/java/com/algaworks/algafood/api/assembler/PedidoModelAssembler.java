@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -29,7 +30,7 @@ public class PedidoModelAssembler
 		PedidoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
 		modelMapper.map(pedido, pedidoModel);
 
-		pedidoModel.add(algaLinks.linkToPedidos());
+		pedidoModel.add(algaLinks.linkToPedidos("pedidos"));
 
 		if (pedido.podeSerConfirmado()) {
 			pedidoModel.add(algaLinks.linkToConfirmacaoPedido(pedido.getCodigo(), "confirmar"));
