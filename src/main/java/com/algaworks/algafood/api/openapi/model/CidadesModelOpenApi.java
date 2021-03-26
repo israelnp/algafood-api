@@ -15,6 +15,7 @@ public class CidadesModelOpenApi {
 
     private CidadeEmbeddedModelOpenApi _embedded;
     private Links _links;
+    private PageModelOpenApi page;
 
     @ApiModel("CidadesEmbeddedModel")
     @Data
