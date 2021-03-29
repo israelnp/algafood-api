@@ -120,7 +120,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	}
 
 	@Override
-	@PutMapping("/{formaPagamentoId}")
+	@PutMapping("/v1/{formaPagamentoId}")
 	public FormaPagamentoModel atualizar(@PathVariable Long formaPagamentoId,
 										 @RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
 		FormaPagamento formaPagamentoAtual = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
