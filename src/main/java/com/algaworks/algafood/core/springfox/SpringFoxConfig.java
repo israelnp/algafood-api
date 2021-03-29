@@ -8,8 +8,6 @@ import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 
-import com.algaworks.algafood.api.v1.model.*;
-import com.algaworks.algafood.api.v1.openapi.model.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -25,6 +23,28 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.algaworks.algafood.api.exceptionhandler.Problem;
+import com.algaworks.algafood.api.v1.model.CidadeModel;
+import com.algaworks.algafood.api.v1.model.CozinhaModel;
+import com.algaworks.algafood.api.v1.model.EstadoModel;
+import com.algaworks.algafood.api.v1.model.FormaPagamentoModel;
+import com.algaworks.algafood.api.v1.model.GrupoModel;
+import com.algaworks.algafood.api.v1.model.PedidoResumoModel;
+import com.algaworks.algafood.api.v1.model.PermissaoModel;
+import com.algaworks.algafood.api.v1.model.ProdutoModel;
+import com.algaworks.algafood.api.v1.model.RestauranteBasicoModel;
+import com.algaworks.algafood.api.v1.model.UsuarioModel;
+import com.algaworks.algafood.api.v1.openapi.model.CidadesModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.CozinhasModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.EstadosModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.FormasPagamentoModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.GruposModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.LinksModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.PageableModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.PedidosResumoModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.PermissoesModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.ProdutosModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.RestaurantesBasicoModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.UsuariosModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
@@ -48,13 +68,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SpringFoxConfig implements WebMvcConfigurer {
 
 	@Bean
-	public Docket apiDocket() {
+	public Docket apiDocketV1() {
 		var typeResolver = new TypeResolver();
 
 		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("V1")
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood.api"))
-				.paths(PathSelectors.any())
+				.paths(PathSelectors.ant("/v1/**"))
 				.build()
 				.useDefaultResponseMessages(false)
 				.globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
@@ -75,7 +96,6 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(PagedModel.class, PedidoResumoModel.class),
 						PedidosResumoModelOpenApi.class))
-
 
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(CollectionModel.class, CidadeModel.class),
@@ -100,6 +120,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(CollectionModel.class, ProdutoModel.class),
 						ProdutosModelOpenApi.class))
+
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(CollectionModel.class, RestauranteBasicoModel.class),
 						RestaurantesBasicoModelOpenApi.class))
@@ -108,7 +129,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						typeResolver.resolve(CollectionModel.class, UsuarioModel.class),
 						UsuariosModelOpenApi.class))
 
-				.apiInfo(apiInfo())
+				.apiInfo(apiInfoV1())
 				.tags(new Tag("Cidades", "Gerencia as cidades"),
 						new Tag("Grupos", "Gerencia os grupos de usuários"),
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
@@ -120,6 +141,31 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 						new Tag("Usuários", "Gerencia os usuários"),
 						new Tag("Estatísticas", "Estatísticas da AlgaFood"),
 						new Tag("Permissões", "Gerencia as permissões"));
+	}
+
+	@Bean
+	public Docket apiDocketV2() {
+		var typeResolver = new TypeResolver();
+
+		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("V2")
+				.select()
+				.apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood.api"))
+				.paths(PathSelectors.ant("/v2/**"))
+				.build()
+				.useDefaultResponseMessages(false)
+				.globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
+				.globalResponseMessage(RequestMethod.POST, globalPostPutResponseMessages())
+				.globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
+				.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
+				.additionalModels(typeResolver.resolve(Problem.class))
+				.ignoredParameterTypes(ServletWebRequest.class,
+						URL.class, URI.class, URLStreamHandler.class, Resource.class,
+						File.class, InputStream.class)
+				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
+
+				.apiInfo(apiInfoV2());
 	}
 
 	private List<ResponseMessage> globalGetResponseMessages() {
@@ -175,11 +221,20 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 		);
 	}
 
-	private ApiInfo apiInfo() {
+	private ApiInfo apiInfoV1() {
 		return new ApiInfoBuilder()
 				.title("AlgaFood API")
 				.description("API aberta para clientes e restaurantes")
 				.version("1")
+				.contact(new Contact("AlgaWorks", "https://www.algaworks.com", "contato@algaworks.com"))
+				.build();
+	}
+
+	private ApiInfo apiInfoV2() {
+		return new ApiInfoBuilder()
+				.title("AlgaFood API")
+				.description("API aberta para clientes e restaurantes")
+				.version("2")
 				.contact(new Contact("AlgaWorks", "https://www.algaworks.com", "contato@algaworks.com"))
 				.build();
 	}
