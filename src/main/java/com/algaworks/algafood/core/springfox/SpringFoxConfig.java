@@ -8,8 +8,6 @@ import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 
-import com.algaworks.algafood.api.v2.openapi.model.CidadesModelV2OpenApi;
-import com.algaworks.algafood.api.v2.openapi.model.CozinhasModelV2OpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -49,6 +47,8 @@ import com.algaworks.algafood.api.v1.openapi.model.RestaurantesBasicoModelOpenAp
 import com.algaworks.algafood.api.v1.openapi.model.UsuariosModelOpenApi;
 import com.algaworks.algafood.api.v2.model.CidadeModelV2;
 import com.algaworks.algafood.api.v2.model.CozinhaModelV2;
+import com.algaworks.algafood.api.v2.openapi.model.CidadesModelV2OpenApi;
+import com.algaworks.algafood.api.v2.openapi.model.CozinhasModelV2OpenApi;
 import com.fasterxml.classmate.TypeResolver;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
@@ -71,7 +71,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfig implements WebMvcConfigurer {
 
-	@Bean
+	//	@Bean
 	public Docket apiDocketV1() {
 		var typeResolver = new TypeResolver();
 
