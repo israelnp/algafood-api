@@ -11,7 +11,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-
+// Fonte: https://github.com/spring-projects/spring-hateoas/issues/263#issuecomment-358969098
 @Component
 public class HalCustomMediaTypeEnabler {
 
@@ -30,7 +30,7 @@ public class HalCustomMediaTypeEnabler {
 
                 MappingJackson2HttpMessageConverter messageConverter = (MappingJackson2HttpMessageConverter) converter;
                 messageConverter.setSupportedMediaTypes(Arrays.asList(MediaTypes.HAL_JSON,
-                        AlgaMediaTypes.V1_APPLICATION_JSON));
+                        AlgaMediaTypes.V1_APPLICATION_JSON, AlgaMediaTypes.V2_APPLICATION_JSON));
             }
         }
     }
