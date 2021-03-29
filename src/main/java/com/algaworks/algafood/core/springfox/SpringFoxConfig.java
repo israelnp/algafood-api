@@ -8,8 +8,8 @@ import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 
-import com.algaworks.algafood.api.model.*;
-import com.algaworks.algafood.api.openapi.model.*;
+import com.algaworks.algafood.api.v1.model.*;
+import com.algaworks.algafood.api.v1.openapi.model.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
