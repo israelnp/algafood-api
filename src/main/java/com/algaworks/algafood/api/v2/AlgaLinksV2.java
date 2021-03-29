@@ -20,7 +20,6 @@ public class AlgaLinksV2 {
         return linkToCidades(IanaLinkRelations.SELF.value());
     }
 
-
     public Link linkToCozinhas(String rel) {
         return linkTo(CozinhaControllerV2.class).withRel(rel);
     }
