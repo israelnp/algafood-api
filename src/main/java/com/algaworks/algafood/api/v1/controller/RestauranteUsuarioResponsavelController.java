@@ -1,6 +1,5 @@
 package com.algaworks.algafood.api.v1.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
