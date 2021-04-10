@@ -35,56 +35,56 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
+	
 	@Autowired
 	private CadastroUsuarioService cadastroUsuario;
-
+	
 	@Autowired
 	private UsuarioModelAssembler usuarioModelAssembler;
-
+	
 	@Autowired
 	private UsuarioInputDisassembler usuarioInputDisassembler;
-
+	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
 	@GetMapping
 	public CollectionModel<UsuarioModel> listar() {
 		List<Usuario> todasUsuarios = usuarioRepository.findAll();
-
+		
 		return usuarioModelAssembler.toCollectionModel(todasUsuarios);
 	}
-
+	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
 	@GetMapping("/{usuarioId}")
 	public UsuarioModel buscar(@PathVariable Long usuarioId) {
 		Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
-
+		
 		return usuarioModelAssembler.toModel(usuario);
 	}
-
+	
 	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public UsuarioModel adicionar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {
 		Usuario usuario = usuarioInputDisassembler.toDomainObject(usuarioInput);
 		usuario = cadastroUsuario.salvar(usuario);
-
+		
 		return usuarioModelAssembler.toModel(usuario);
 	}
-
+	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeAlterarUsuario
 	@Override
 	@PutMapping("/{usuarioId}")
 	public UsuarioModel atualizar(@PathVariable Long usuarioId,
-								  @RequestBody @Valid UsuarioInput usuarioInput) {
+			@RequestBody @Valid UsuarioInput usuarioInput) {
 		Usuario usuarioAtual = cadastroUsuario.buscarOuFalhar(usuarioId);
 		usuarioInputDisassembler.copyToDomainObject(usuarioInput, usuarioAtual);
 		usuarioAtual = cadastroUsuario.salvar(usuarioAtual);
-
+		
 		return usuarioModelAssembler.toModel(usuarioAtual);
 	}
-
+	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeAlterarPropriaSenha
 	@Override
 	@PutMapping("/{usuarioId}/senha")
@@ -92,5 +92,5 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	public void alterarSenha(@PathVariable Long usuarioId, @RequestBody @Valid SenhaInput senha) {
 		cadastroUsuario.alterarSenha(usuarioId, senha.getSenhaAtual(), senha.getNovaSenha());
 	}
-
+	
 }

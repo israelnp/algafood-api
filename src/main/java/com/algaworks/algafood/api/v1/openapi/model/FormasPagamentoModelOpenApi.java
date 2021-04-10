@@ -13,15 +13,15 @@ import lombok.Data;
 @Data
 public class FormasPagamentoModelOpenApi {
 
-    private FormasPagamentoEmbeddedModelOpenApi _embedded;
-    private Links _links;
-
-    @ApiModel("FormasPagamentoEmbeddedModel")
-    @Data
-    public class FormasPagamentoEmbeddedModelOpenApi {
-
-        private List<FormaPagamentoModel> formasPagamento;
-
-    }
-
+	private FormasPagamentoEmbeddedModelOpenApi _embedded;
+	private Links _links;
+	
+	@ApiModel("FormasPagamentoEmbeddedModel")
+	@Data
+	public class FormasPagamentoEmbeddedModelOpenApi {
+		
+		private List<FormaPagamentoModel> formasPagamento;
+		
+	}
+	
 }

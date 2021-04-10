@@ -15,17 +15,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PedidosResumoModelOpenApi {
-
-    private PedidosResumoEmbeddedModelOpenApi _embedded;
-    private Links _links;
-    private PageModelOpenApi page;
-
-    @ApiModel("PedidosResumoEmbeddedModel")
-    @Data
-    public class PedidosResumoEmbeddedModelOpenApi {
-
-        private List<PedidoResumoModel> pedidos;
-
-    }
-
+	
+	private PedidosResumoEmbeddedModelOpenApi _embedded;
+	private Links _links;
+	private PageModelOpenApi page;
+	
+	@ApiModel("PedidosResumoEmbeddedModel")
+	@Data
+	public class PedidosResumoEmbeddedModelOpenApi {
+		
+		private List<PedidoResumoModel> pedidos;
+		
+	}
+	
 }

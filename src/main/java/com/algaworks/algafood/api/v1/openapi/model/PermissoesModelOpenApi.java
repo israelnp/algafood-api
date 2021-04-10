@@ -13,15 +13,15 @@ import lombok.Data;
 @Data
 public class PermissoesModelOpenApi {
 
-    private PermissoesEmbeddedModelOpenApi _embedded;
-    private Links _links;
-
-    @ApiModel("PermissoesEmbeddedModel")
-    @Data
-    public class PermissoesEmbeddedModelOpenApi {
-
-        private List<PermissaoModel> permissoes;
-
-    }
-
+	private PermissoesEmbeddedModelOpenApi _embedded;
+	private Links _links;
+	
+	@ApiModel("PermissoesEmbeddedModel")
+	@Data
+	public class PermissoesEmbeddedModelOpenApi {
+		
+		private List<PermissaoModel> permissoes;
+		
+	}
+	
 }

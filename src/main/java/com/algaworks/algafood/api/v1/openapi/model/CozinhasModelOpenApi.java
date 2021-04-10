@@ -15,17 +15,17 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CozinhasModelOpenApi {
-
-    private CozinhasEmbeddedModelOpenApi _embedded;
-    private Links _links;
-    private PageModelOpenApi page;
-
-    @ApiModel("CozinhasEmbeddedModel")
-    @Data
-    public class CozinhasEmbeddedModelOpenApi {
-
-        private List<CozinhaModel> cozinhas;
-
-    }
-
+	
+	private CozinhasEmbeddedModelOpenApi _embedded;
+	private Links _links;
+	private PageModelOpenApi page;
+	
+	@ApiModel("CozinhasEmbeddedModel")
+	@Data
+	public class CozinhasEmbeddedModelOpenApi {
+		
+		private List<CozinhaModel> cozinhas;
+		
+	}
+	
 }

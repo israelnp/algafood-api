@@ -46,40 +46,41 @@ public class PedidoController implements PedidoControllerOpenApi {
 
 	@Autowired
 	private PedidoRepository pedidoRepository;
-
+	
 	@Autowired
 	private EmissaoPedidoService emissaoPedido;
-
+	
 	@Autowired
 	private PedidoModelAssembler pedidoModelAssembler;
-
+	
 	@Autowired
 	private PedidoResumoModelAssembler pedidoResumoModelAssembler;
-
+	
 	@Autowired
 	private PedidoInputDisassembler pedidoInputDisassembler;
-
+	
 	@Autowired
 	private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
-
+	
 	@Autowired
 	private AlgaSecurity algaSecurity;
-
+	
 	@CheckSecurity.Pedidos.PodePesquisar
 	@Override
 	@GetMapping
-	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro,
-												   @PageableDefault(size = 10) Pageable pageable) {
+	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
+			@PageableDefault(size = 10) Pageable pageable) {
 		Pageable pageableTraduzido = traduzirPageable(pageable);
-
+		
 		Page<Pedido> pedidosPage = pedidoRepository.findAll(
 				PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
-
+		
 		pedidosPage = new PageWrapper<>(pedidosPage, pageable);
-
+		
 		return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
 	}
-
+	
+	@CheckSecurity.Pedidos.PodeCriar
 	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -97,16 +98,16 @@ public class PedidoController implements PedidoControllerOpenApi {
 			throw new NegocioException(e.getMessage(), e);
 		}
 	}
-
+	
 	@CheckSecurity.Pedidos.PodeBuscar
 	@Override
 	@GetMapping("/{codigoPedido}")
 	public PedidoModel buscar(@PathVariable String codigoPedido) {
 		Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
-
+		
 		return pedidoModelAssembler.toModel(pedido);
 	}
-
+	
 	private Pageable traduzirPageable(Pageable apiPageable) {
 		var mapeamento = Map.of(
 				"codigo", "codigo",
@@ -118,9 +119,9 @@ public class PedidoController implements PedidoControllerOpenApi {
 				"restaurante.id", "restaurante.id",
 				"cliente.id", "cliente.id",
 				"cliente.nome", "cliente.nome"
-		);
-
+			);
+		
 		return PageableTranslator.translate(apiPageable, mapeamento);
 	}
-
+	
 }

@@ -34,66 +34,66 @@ public class GrupoController implements GrupoControllerOpenApi {
 
 	@Autowired
 	private GrupoRepository grupoRepository;
-
+	
 	@Autowired
 	private CadastroGrupoService cadastroGrupo;
-
+	
 	@Autowired
 	private GrupoModelAssembler grupoModelAssembler;
-
+	
 	@Autowired
 	private GrupoInputDisassembler grupoInputDisassembler;
-
+	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
 	@GetMapping
 	public CollectionModel<GrupoModel> listar() {
 		List<Grupo> todosGrupos = grupoRepository.findAll();
-
+		
 		return grupoModelAssembler.toCollectionModel(todosGrupos);
 	}
-
+	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
 	@GetMapping("/{grupoId}")
 	public GrupoModel buscar(@PathVariable Long grupoId) {
 		Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
-
+		
 		return grupoModelAssembler.toModel(grupo);
 	}
-
+	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public GrupoModel adicionar(@RequestBody @Valid GrupoInput grupoInput) {
 		Grupo grupo = grupoInputDisassembler.toDomainObject(grupoInput);
-
+		
 		grupo = cadastroGrupo.salvar(grupo);
-
+		
 		return grupoModelAssembler.toModel(grupo);
 	}
-
+	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
 	@PutMapping("/{grupoId}")
 	public GrupoModel atualizar(@PathVariable Long grupoId,
-								@RequestBody @Valid GrupoInput grupoInput) {
+			@RequestBody @Valid GrupoInput grupoInput) {
 		Grupo grupoAtual = cadastroGrupo.buscarOuFalhar(grupoId);
-
+		
 		grupoInputDisassembler.copyToDomainObject(grupoInput, grupoAtual);
-
+		
 		grupoAtual = cadastroGrupo.salvar(grupoAtual);
-
+		
 		return grupoModelAssembler.toModel(grupoAtual);
 	}
-
+	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
 	@DeleteMapping("/{grupoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long grupoId) {
-		cadastroGrupo.excluir(grupoId);
+		cadastroGrupo.excluir(grupoId);	
 	}
-
+	
 }

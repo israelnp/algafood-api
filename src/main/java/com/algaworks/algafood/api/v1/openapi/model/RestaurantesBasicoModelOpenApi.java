@@ -13,15 +13,15 @@ import lombok.Data;
 @Data
 public class RestaurantesBasicoModelOpenApi {
 
-    private RestaurantesEmbeddedModelOpenApi _embedded;
-    private Links _links;
-
-    @ApiModel("RestaurantesEmbeddedModel")
-    @Data
-    public class RestaurantesEmbeddedModelOpenApi {
-
-        private List<RestauranteBasicoModel> restaurantes;
-
-    }
-
+	private RestaurantesEmbeddedModelOpenApi _embedded;
+	private Links _links;
+	
+	@ApiModel("RestaurantesEmbeddedModel")
+	@Data
+	public class RestaurantesEmbeddedModelOpenApi {
+		
+		private List<RestauranteBasicoModel> restaurantes;
+		
+	}
+	
 }

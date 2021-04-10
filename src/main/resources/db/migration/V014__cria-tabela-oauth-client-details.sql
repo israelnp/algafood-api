@@ -10,6 +10,6 @@ create table oauth_client_details (
   refresh_token_validity integer,
   additional_information varchar(4096),
   autoapprove varchar(256),
-
-primary key (client_id)
+  
+  primary key (client_id)
 ) engine=innodb default charset=utf8;

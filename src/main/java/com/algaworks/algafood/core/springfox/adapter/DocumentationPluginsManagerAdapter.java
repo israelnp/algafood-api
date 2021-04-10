@@ -19,24 +19,24 @@ import springfox.documentation.spring.web.plugins.DocumentationPluginsManager;
 @Component
 public class DocumentationPluginsManagerAdapter extends DocumentationPluginsManager {
 
-    @Autowired
-    @Qualifier("resourceGroupingStrategyRegistry")
-    private PluginRegistry<ResourceGroupingStrategy, DocumentationType> resourceGroupingStrategies;
+	@Autowired
+	@Qualifier("resourceGroupingStrategyRegistry")
+	private PluginRegistry<ResourceGroupingStrategy, DocumentationType> resourceGroupingStrategies;
 
-    @Autowired
-    @Qualifier("defaultsProviderPluginRegistry")
-    private PluginRegistry<DefaultsProviderPlugin, DocumentationType> defaultsProviders;
+	@Autowired
+	@Qualifier("defaultsProviderPluginRegistry")
+	private PluginRegistry<DefaultsProviderPlugin, DocumentationType> defaultsProviders;
 
-    @Override
-    public ResourceGroupingStrategy resourceGroupingStrategy(DocumentationType documentationType) {
-        return resourceGroupingStrategies.getPluginOrDefaultFor(documentationType, new SpringGroupingStrategy());
-    }
+	@Override
+	public ResourceGroupingStrategy resourceGroupingStrategy(DocumentationType documentationType) {
+		return resourceGroupingStrategies.getPluginOrDefaultFor(documentationType, new SpringGroupingStrategy());
+	}
 
-    @Override
-    public DocumentationContextBuilder createContextBuilder(DocumentationType documentationType,
-                                                            DefaultConfiguration defaultConfiguration) {
-        return defaultsProviders.getPluginOrDefaultFor(documentationType, defaultConfiguration).create(documentationType)
-                .withResourceGroupingStrategy(resourceGroupingStrategy(documentationType));
-    }
+	@Override
+	public DocumentationContextBuilder createContextBuilder(DocumentationType documentationType,
+			DefaultConfiguration defaultConfiguration) {
+		return defaultsProviders.getPluginOrDefaultFor(documentationType, defaultConfiguration).create(documentationType)
+				.withResourceGroupingStrategy(resourceGroupingStrategy(documentationType));
+	}
 
 }

@@ -13,15 +13,15 @@ import lombok.Data;
 @Data
 public class ProdutosModelOpenApi {
 
-    private ProdutosEmbeddedModelOpenApi _embedded;
-    private Links _links;
-
-    @ApiModel("ProdutosEmbeddedModel")
-    @Data
-    public class ProdutosEmbeddedModelOpenApi {
-
-        private List<ProdutoModel> produtos;
-
-    }
-
+	private ProdutosEmbeddedModelOpenApi _embedded;
+	private Links _links;
+	
+	@ApiModel("ProdutosEmbeddedModel")
+	@Data
+	public class ProdutosEmbeddedModelOpenApi {
+		
+		private List<ProdutoModel> produtos;
+		
+	}
+	
 }

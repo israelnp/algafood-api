@@ -20,35 +20,35 @@ public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
 
 	@Autowired
 	private FluxoPedidoService fluxoPedido;
-
+	
 	@CheckSecurity.Pedidos.PodeGerenciarPedidos
 	@Override
 	@PutMapping("/confirmacao")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> confirmar(@PathVariable String codigoPedido) {
 		fluxoPedido.confirmar(codigoPedido);
-
+		
 		return ResponseEntity.noContent().build();
 	}
-
+	
 	@CheckSecurity.Pedidos.PodeGerenciarPedidos
 	@Override
 	@PutMapping("/cancelamento")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> cancelar(@PathVariable String codigoPedido) {
 		fluxoPedido.cancelar(codigoPedido);
-
+		
 		return ResponseEntity.noContent().build();
 	}
-
+	
 	@CheckSecurity.Pedidos.PodeGerenciarPedidos
 	@Override
 	@PutMapping("/entrega")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> entregar(@PathVariable String codigoPedido) {
 		fluxoPedido.entregar(codigoPedido);
-
+		
 		return ResponseEntity.noContent().build();
 	}
-
+	
 }

@@ -13,15 +13,15 @@ import lombok.Data;
 @Data
 public class GruposModelOpenApi {
 
-    private GruposEmbeddedModelOpenApi _embedded;
-    private Links _links;
-
-    @ApiModel("GruposEmbeddedModel")
-    @Data
-    public class GruposEmbeddedModelOpenApi {
-
-        private List<GrupoModel> grupos;
-
-    }
-
+	private GruposEmbeddedModelOpenApi _embedded;
+	private Links _links;
+	
+	@ApiModel("GruposEmbeddedModel")
+	@Data
+	public class GruposEmbeddedModelOpenApi {
+		
+		private List<GrupoModel> grupos;
+		
+	}
+	
 }

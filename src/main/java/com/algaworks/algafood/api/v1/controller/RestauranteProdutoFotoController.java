@@ -43,73 +43,73 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 
 	@Autowired
 	private CadastroProdutoService cadastroProduto;
-
+	
 	@Autowired
 	private CatalogoFotoProdutoService catalogoFotoProduto;
-
+	
 	@Autowired
 	private FotoStorageService fotoStorage;
-
+	
 	@Autowired
 	private FotoProdutoModelAssembler fotoProdutoModelAssembler;
-
+	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@Override
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId,
-										  @PathVariable Long produtoId, @Valid FotoProdutoInput fotoProdutoInput,
-										  @RequestPart(required = true) MultipartFile arquivo) throws IOException {
+			@PathVariable Long produtoId, @Valid FotoProdutoInput fotoProdutoInput,
+			@RequestPart(required = true) MultipartFile arquivo) throws IOException {
 		Produto produto = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);
-
+		
 //		MultipartFile arquivo = fotoProdutoInput.getArquivo();
-
+		
 		FotoProduto foto = new FotoProduto();
 		foto.setProduto(produto);
 		foto.setDescricao(fotoProdutoInput.getDescricao());
 		foto.setContentType(arquivo.getContentType());
 		foto.setTamanho(arquivo.getSize());
 		foto.setNomeArquivo(arquivo.getOriginalFilename());
-
+		
 		FotoProduto fotoSalva = catalogoFotoProduto.salvar(foto, arquivo.getInputStream());
-
+		
 		return fotoProdutoModelAssembler.toModel(fotoSalva);
 	}
-
+	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@Override
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void excluir(@PathVariable Long restauranteId,
-						@PathVariable Long produtoId) {
+	public void excluir(@PathVariable Long restauranteId, 
+			@PathVariable Long produtoId) {
 		catalogoFotoProduto.excluir(restauranteId, produtoId);
 	}
-
+	
 	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
 	@GetMapping
-	public FotoProdutoModel buscar(@PathVariable Long restauranteId,
-								   @PathVariable Long produtoId) {
+	public FotoProdutoModel buscar(@PathVariable Long restauranteId, 
+			@PathVariable Long produtoId) {
 		FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
-
+		
 		return fotoProdutoModelAssembler.toModel(fotoProduto);
 	}
-
+	
 	// As fotos dos produtos ficarão públicas (não precisa de autorização para acessá-las)
 	@Override
 	@GetMapping(produces = MediaType.ALL_VALUE)
-	public ResponseEntity<?> servir(@PathVariable Long restauranteId,
-									@PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader)
-			throws HttpMediaTypeNotAcceptableException {
+	public ResponseEntity<?> servir(@PathVariable Long restauranteId, 
+			@PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader) 
+					throws HttpMediaTypeNotAcceptableException {
 		try {
 			FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
-
+			
 			MediaType mediaTypeFoto = MediaType.parseMediaType(fotoProduto.getContentType());
 			List<MediaType> mediaTypesAceitas = MediaType.parseMediaTypes(acceptHeader);
-
+			
 			verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
-
+			
 			FotoRecuperada fotoRecuperada = fotoStorage.recuperar(fotoProduto.getNomeArquivo());
-
+			
 			if (fotoRecuperada.temUrl()) {
 				return ResponseEntity
 						.status(HttpStatus.FOUND)
@@ -125,15 +125,15 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 		}
 	}
 
-	private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto,
-												   List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
-
+	private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, 
+			List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
+		
 		boolean compativel = mediaTypesAceitas.stream()
 				.anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaTypeFoto));
-
+		
 		if (!compativel) {
 			throw new HttpMediaTypeNotAcceptableException(mediaTypesAceitas);
 		}
 	}
-
+	
 }

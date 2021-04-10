@@ -2,7 +2,6 @@ package com.algaworks.algafood.api.v1.controller;
 
 import javax.validation.Valid;
 
-import com.algaworks.algafood.core.security.CheckSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +25,7 @@ import com.algaworks.algafood.api.v1.assembler.CozinhaModelAssembler;
 import com.algaworks.algafood.api.v1.model.CozinhaModel;
 import com.algaworks.algafood.api.v1.model.input.CozinhaInput;
 import com.algaworks.algafood.api.v1.openapi.controller.CozinhaControllerOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
@@ -36,37 +36,37 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
-
+	
 	@Autowired
 	private CadastroCozinhaService cadastroCozinha;
-
+	
 	@Autowired
 	private CozinhaModelAssembler cozinhaModelAssembler;
-
+	
 	@Autowired
 	private CozinhaInputDisassembler cozinhaInputDisassembler;
-
+	
 	@Autowired
 	private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
-
+	
 	@CheckSecurity.Cozinhas.PodeConsultar
 	@Override
 	@GetMapping
 	public PagedModel<CozinhaModel> listar(@PageableDefault(size = 10) Pageable pageable) {
 		Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
-
+		
 		PagedModel<CozinhaModel> cozinhasPagedModel = pagedResourcesAssembler
 				.toModel(cozinhasPage, cozinhaModelAssembler);
-
+		
 		return cozinhasPagedModel;
 	}
-
+	
 	@CheckSecurity.Cozinhas.PodeConsultar
 	@Override
 	@GetMapping("/{cozinhaId}")
 	public CozinhaModel buscar(@PathVariable Long cozinhaId) {
 		Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
-
+		
 		return cozinhaModelAssembler.toModel(cozinha);
 	}
 
@@ -77,22 +77,22 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
 		Cozinha cozinha = cozinhaInputDisassembler.toDomainObject(cozinhaInput);
 		cozinha = cadastroCozinha.salvar(cozinha);
-
+		
 		return cozinhaModelAssembler.toModel(cozinha);
 	}
-
+	
 	@CheckSecurity.Cozinhas.PodeEditar
 	@Override
 	@PutMapping("/{cozinhaId}")
 	public CozinhaModel atualizar(@PathVariable Long cozinhaId,
-								  @RequestBody @Valid CozinhaInput cozinhaInput) {
+			@RequestBody @Valid CozinhaInput cozinhaInput) {
 		Cozinha cozinhaAtual = cadastroCozinha.buscarOuFalhar(cozinhaId);
 		cozinhaInputDisassembler.copyToDomainObject(cozinhaInput, cozinhaAtual);
 		cozinhaAtual = cadastroCozinha.salvar(cozinhaAtual);
-
+		
 		return cozinhaModelAssembler.toModel(cozinhaAtual);
 	}
-
+	
 	@CheckSecurity.Cozinhas.PodeEditar
 	@Override
 	@DeleteMapping("/{cozinhaId}")
@@ -100,5 +100,5 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	public void remover(@PathVariable Long cozinhaId) {
 		cadastroCozinha.excluir(cozinhaId);
 	}
-
+	
 }
